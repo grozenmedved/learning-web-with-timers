@@ -1,0 +1,53 @@
+	if (isset($_post)) {
+		if (strlen($_POST['ime']) <=2){ //strlen; checks how many characters 
+			array_push($napake, [['ime'] => "ime je prekratek"]);//there are and refuses if there's less than 2
+		}
+		if (strlen($_POST['priimek']) <=2) {
+			array_push($napake, ['tip' => 'priimek', 'sporocoilo' => "priimek je prekratek"])
+		}
+		
+		foreach ([
+			'gmail.com',
+			'email.si',
+			'yahoo.com',
+			] as $domena) {
+				
+						if (strpos($_POST['email'], 'gmail.com') > 0) {
+			array_push($napake, ['email' => $domena. "email ni dovoljen"])
+			}
+		}
+	}*/
+	
+<?php	
+		#echo "<pre>";
+	#print_r($_POST);
+	#echo "</pre>";
+	#shows what you've entered
+	
+	if (isset($_POST) && isset($_POST['ime'])) {
+		$ime = ($_POST['ime'];
+	}
+		if (isset($_POST) && isset($_POST['priimek'])) {
+		$priimek = ($_POST['priimek'];
+	}
+		if (isset($_POST) && isset($_POST['email'])) {
+		$email = ($_POST['email'];
+	}
+		if (isset($_POST) && isset($_POST['geslo'])) {
+		$geslo = ($_POST['geslo'];
+	}
+#how to fix it
+	if (isset($_POST) && isset($_POST['ime'])) {
+		$ime = $_POST['ime'];
+	}
+		if (isset($_POST) && isset($_POST['priimek'])) {
+		$priimek = $_POST['priimek'];
+	}
+		if (isset($_POST) && isset($_POST['email'])) {
+		$email = $_POST['email'];
+	}
+		if (isset($_POST) && isset($_POST['geslo'])) {
+		$geslo = $_POST['geslo'];
+	}
+	
+?>

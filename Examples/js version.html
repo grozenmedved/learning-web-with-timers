@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Display</title>
+    <style>
+        body { font-family: 'Times New Roman', Times, serif; margin: 20px; }
+        #controls { margin-bottom: 20px; }
+        #dataContainer details { margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+
+    <!-- Controls -->
+    <div id="controls">
+        <input type="text" id="inputValue" placeholder="Enter value">
+        <button onclick="addItem()">Add</button>
+        <button onclick="editItem()">Edit</button>
+        <button onclick="removeItem()">Remove</button>
+    </div>
+
+    <!-- Data Display -->
+    <div id="dataContainer"></div>
+
+    <script>
+        let data = [];
+
+        function addItem() {
+            const value = document.getElementById("inputValue").value.trim();
+            if (!value) return;
+            data.push(value);
+            render();
+        }
+
+        function editItem() {
+            const value = document.getElementById("inputValue").value.trim();
+            if (!value || data.length === 0) return;
+            data[data.length - 1] = value; // Edit last item for simplicity
+            render();
+        }
+
+        function removeItem() {
+            data.pop();
+            render();
+        }
+
+        function render() {
+            const container = document.getElementById("dataContainer");
+            container.innerHTML = "";
+            data.forEach((item, index) => {
+                const details = document.createElement("details");
+                const summary = document.createElement("summary");
+                summary.textContent = `Item ${index + 1}`;
+                
+                // You can replace this with a table if needed
+                const content = document.createElement("p");
+                content.textContent = item;
+
+                details.appendChild(summary);
+                details.appendChild(content);
+                container.appendChild(details);
+            });
+        }
+    </script>
+
+</body>
+</html>

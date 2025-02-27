@@ -18,20 +18,58 @@
 			"idTimer" => 1,
 			"idRecipie" => 1, // Links to the parent
 			"name" => "Cold fermentation",
-			"info" => 12345,
+			"duration" => 30,
 		],[
 			"idTimer" => 2,
 			"idRecipie" => 1, // Links to the parent
 			"name" => "Final proof",
-			"info" => 12345,
+			"duration" => 7200,
 		],[
 			"idTimer" => 2,
 			"idRecipie" => 3, // Links to the parent
-			"name" => "Child object",
-			"info" => 12345,
+			"name" => "Final proof",
+			"duration" => 126400,
+		],
+		[
+			"idTimer" => 2,
+			"idRecipie" => 3, // Links to the parent
+			"name" => "Final proof",
+			"duration" => 226400,
 		],
 	];
+	function displayFinishingTime($duration) {
+		$currentTime = time();
+		$days = floor($duration / 86400);
+		if ($duration < 86400) {
+			return "Ready at " .  gmdate("H:i:s" , $currentTime + $duration);
+		} elseif ($duration >= 86400 && $duration <  86400*2){
+			return "Ready in " . $days .  " day at " .  gmdate("H:i:s" , $currentTime + $duration);
+		} else {
+			return "Ready in " . $days .  " days at " .  gmdate("H:i:s" , $currentTime + $duration);
+
+		}
+	}
 ?>
+<script>
+	function startCountdown(timerId, timeLeft) {
+			function updateTimer() {
+					if (timeLeft <= 0) {
+							document.getElementById(timerId).innerHTML = 'Time\'s up!';
+							clearInterval(timerInterval); // Stop the interval when time is up
+					} else {
+							let minutes = Math.floor(timeLeft / 60);
+							let seconds = timeLeft % 60;
+							document.getElementById(timerId).innerHTML = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+							timeLeft--; // Decrease the time
+					}
+			}
+
+			// Update every second
+			let timerInterval = setInterval(updateTimer, 1000);
+			return timeLeft;
+	}
+</script>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -48,42 +86,24 @@
 		</aside>
 		<main>
 				<?php
-					echo "<h2>Parent-Child Relationship</h2>";
+					echo "<h2>Recepti</h2>";
 					foreach ($exampleParent as $parent) {
 						echo "<h3>{$parent['name']} (Recipe ID: {$parent['idRecipie']})</h3>";
+						echo "<details open>
+							<summary> Timerji </summary>";
 						foreach ($exampleChild as $child) {
 							if ($child["idRecipie"] === $parent["idRecipie"]) {
-								echo "<details open>";
-								// echo "<p> - Child: {$child['name']} (ID: {$child['idTimer']}), Info: {$child['info']}</p>";
-								echo 
-								"<table>
-									<tr>
-										<td></td>
-										<td>Lid on</td>
-										<td></td>
-									</tr>									
-									<tr>
-										<td><button >&#9209;</button> </td>
-										<td><button >&#9208;</button></td>
-										<td></td>
-									</tr>
-									<tr>
-										<td></td>
-										<td>00:25:44</td>
-										<td>min</td>
-									</tr>
-									<tr>
-										<td>Done at:</td>
-										<td><input type=\"time\" class=\"DoneAtTimeClass\" value=\"19:45\" readonly></td>
-									</tr>
-								</table>
-										";
-								"<p> - Child: {$child['name']} (ID: {$child['idTimer']}), Info: {$child['info']}</p>";
-			
-								
-								echo "</details>";
+								echo "<li>"; // Start child list item
+									echo "<strong>" . $child['name'] . "</strong>"; // Display child name and duration
+									echo " <button class='button'>Start</button>";
+									echo " <button class='button'>Stop</button>  ";    
+									echo " duration: {$child['duration']} ";
+									echo "<script>startCountdown('timer" . $child['idTimer'] . "', " . $child['duration'] . ");</script>";
+									echo "  duration: " . displayFinishingTime($child['duration']); // Display child name and duration
+								echo "</li>"; // End child list item
 							}
 						}
+						echo "</details>";
 					}				
 				?>
 		</main>

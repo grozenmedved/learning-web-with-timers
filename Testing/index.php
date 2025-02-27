@@ -119,23 +119,24 @@
 
     // Add event listeners to buttons to show/hide corresponding input sections
     document.getElementById('recipeChooseButton').addEventListener('click', function() {
-        toggleInputs('recipeChooseWhichEdit');
+        toggleInputs('recipeChooseWhichEdit', inputSections);
     });
     document.getElementById('timerChooseButton').addEventListener('click', function() {
-        toggleInputs('timerChooseWhichEdit');
+        toggleInputs('timerChooseWhichEdit', inputSections);
     });
-    function toggleInputs(sectionId) {
+    function toggleInputs(sectionId, sectionType) {
         // Hide all input sections
-        inputSections.forEach(section => section.style.display = 'none');
+        sectionType.forEach(section => section.style.display = 'none');
         // Show the selected input section
         document.getElementById(sectionId).style.display = 'block';
     }
+
 		// Edit section
-		const editSection = document.querySelectorAll('.editSection');
-    editSection.forEach(section => section.style.display = 'none');
-		document.getElementById('recipeChooseButton').addEventListener('click', function() {
-        toggleInputs('recipeChooseWhichEdit');
-    });
+		// const editSection = document.querySelectorAll('.editSection');
+    // editSection.forEach(section => section.style.display = 'none');
+		// document.getElementById('recipeIDAddNew').addEventListener('click', function() {
+    //     toggleInputs('recipeAddNewInputs', editSection);
+    // });
 
     // Add event listeners to buttons to show/hide corresponding input sections
 

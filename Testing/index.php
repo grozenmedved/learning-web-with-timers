@@ -2,13 +2,13 @@
 		// Define parent array
 	$exampleParent = [
 		[
-			"idRecipie" => 1,
+			"idrecipe" => 1,
 			"name" => "Beli kruh",
 		],[
-			"idRecipie" => 2,
+			"idrecipe" => 2,
 			"name" => "Štruca",
 		],[
-			"idRecipie" => 3,
+			"idrecipe" => 3,
 			"name" => "Žemlja",
 		],
 	];
@@ -16,23 +16,23 @@
 	$exampleChild = [
 		[
 			"idTimer" => 1,
-			"idRecipie" => 1, // Links to the parent
+			"idrecipe" => 1, // Links to the parent
 			"name" => "Cold fermentation",
 			"duration" => 30,
 		],[
 			"idTimer" => 2,
-			"idRecipie" => 1, // Links to the parent
+			"idrecipe" => 1, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 7200,
 		],[
 			"idTimer" => 2,
-			"idRecipie" => 3, // Links to the parent
+			"idrecipe" => 3, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 126400,
 		],
 		[
 			"idTimer" => 2,
-			"idRecipie" => 3, // Links to the parent
+			"idrecipe" => 3, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 226400,
 		],
@@ -77,41 +77,25 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-		<!-- editing -->
+		<!-- Choose timers or recipes -->
 		<aside>
-			<a><button class="button" id="newReceptButton">Edit Timers</button></a>
-			<a><button class="button" id="editReceptButton">Edit Recept</button></a>
-			<a><button class="button" id="removeReceptButton">Remove Recept</button></a>
-			<a><button class="button" id="newTimerButton">New Timer</button></a>
-			<a><button class="button" id="editTimerButton">Edit Timer</button></a>
-			<a><button class="button" id="removeTimerButton">Remove Timer</button></a>
+			<a><button class="button" id="recipeChooseButton">Edit recipes</button></a>
+			<a><button class="button" id="timerChooseButton">Edit timers</button></a>
 		</aside>	
-
-		<!-- Inputs for New Recept -->
-		<div id="newReceptInputs" class="inputSection" style="display:none;">
-				<input type="text" placeholder="Enter new recept name">
-				<textarea placeholder="Enter recept details"></textarea>
-				<button>Save New Recept</button>
+		<!-- Choose whether to add, edit, or remove -->
+		<div id="recipeChooseWhichEdit" class="inputSection" style="display:none;">
+				<button class="editSection" id="recipeIDAddNew">New recipe</button>
+				<button class="editSection" id="recipeIDEdit">Edit recipe</button>
+				<button class="editSection" id="recipeIDRemove">Remove recipe</button>
 		</div>
-
-		<!-- Inputs for Edit Recept -->
-		<div id="editReceptInputs" class="inputSection" style="display:none;">
-				<input type="text" placeholder="Enter recept name to edit">
-				<textarea placeholder="Edit recept details"></textarea>
-				<button>Save Edited Recept</button>
+		<div id="timerChooseWhichEdit" class="inputSection" style="display:none;">
+				<button class="editSection" id="timerIDAddNew">New timer</button>
+				<button class="editSection" id="timerIDEdit">Edit timer</button>
+				<button class="editSection" id="timerIDRemove">Remove timer</button>
 		</div>
-
-		<!-- Inputs for Remove Recept -->
-		<div id="removeReceptInputs" class="inputSection" style="display:none;">
-				<p>Are you sure you want to remove this recept?</p>
-				<button>Yes</button>
-				<button>No</button>
-		</div>
-
 		<!-- Inputs for New Timer -->
-		<div id="newTimerInputs" class="inputSection" style="display:none;">
-				<input type="text" placeholder="Enter timer name">
-				<input type="time" placeholder="Set timer time">
+		<div id="recipeAddNewInputs" class="editSection" style="display:none;">
+				<input type="text" placeholder="Enter recipe name">
 				<button>Save New Timer</button>
 		</div>
 
@@ -129,53 +113,48 @@
 				<button>No</button>
 		</div>
 <script>
-    // Hide all input sections initially
+    // Recipie or timer section
     const inputSections = document.querySelectorAll('.inputSection');
     inputSections.forEach(section => section.style.display = 'none');
 
     // Add event listeners to buttons to show/hide corresponding input sections
-    document.getElementById('newReceptButton').addEventListener('click', function() {
-        toggleInputs('newReceptInputs');
+    document.getElementById('recipeChooseButton').addEventListener('click', function() {
+        toggleInputs('recipeChooseWhichEdit');
     });
-    document.getElementById('editReceptButton').addEventListener('click', function() {
-        toggleInputs('editReceptInputs');
+    document.getElementById('timerChooseButton').addEventListener('click', function() {
+        toggleInputs('timerChooseWhichEdit');
     });
-    document.getElementById('removeReceptButton').addEventListener('click', function() {
-        toggleInputs('removeReceptInputs');
-    });
-    document.getElementById('newTimerButton').addEventListener('click', function() {
-        toggleInputs('newTimerInputs');
-    });
-    document.getElementById('editTimerButton').addEventListener('click', function() {
-        toggleInputs('editTimerInputs');
-    });
-    document.getElementById('removeTimerButton').addEventListener('click', function() {
-        toggleInputs('removeTimerInputs');
-    });
-    // Function to show the correct input section and hide the others
     function toggleInputs(sectionId) {
         // Hide all input sections
         inputSections.forEach(section => section.style.display = 'none');
-        
         // Show the selected input section
         document.getElementById(sectionId).style.display = 'block';
     }
+		// Edit section
+		const editSection = document.querySelectorAll('.editSection');
+    editSection.forEach(section => section.style.display = 'none');
+		document.getElementById('recipeChooseButton').addEventListener('click', function() {
+        toggleInputs('recipeChooseWhichEdit');
+    });
+
+    // Add event listeners to buttons to show/hide corresponding input sections
+
 </script>
 
 		<main>
 				<?php
 					echo "<h2>Recepti</h2>";
 					foreach ($exampleParent as $parent) {
-						echo "<h3>{$parent['name']} (Recipe ID: {$parent['idRecipie']})</h3>";
+						echo "<h3>{$parent['name']} (Recipe ID: {$parent['idrecipe']})</h3>";
 						echo "<details open>
 							<summary> Timerji </summary>";
 						foreach ($exampleChild as $child) {
-							if ($child["idRecipie"] === $parent["idRecipie"]) {
+							if ($child["idrecipe"] === $parent["idrecipe"]) {
 								echo "<li>"; 
 									echo "<strong>" . $child['name'] . "</strong>"; 
 									echo " <button class='button'>Start</button>";
 									echo " <button class='button'>Stop</button>  ";    
-									echo " duration: {$child['duration']} ";
+									// echo " duration: {$child['duration']} ";
 									// echo "<script>startCountdown('timer" . $child['idTimer'] . "', " . $child['duration'] . ");</script>";
 									echo "  duration: " . displayFinishingTime($child['duration']); 
 								echo "</li>"; 

@@ -80,9 +80,7 @@
 		<meta charset="utf-8">
 	</head>
 	<aside>
-		<a href="add.php"><button type="button">Add</button></a>
-		<a href="edit.php"><button type="button">Edit</button></a>
-		<a href="remove.php"><button type="button">Remove</button></a>
+		<a href="index.php"><button type="button">Back</button></a>
 	</aside>
 	<body>
 		<main>

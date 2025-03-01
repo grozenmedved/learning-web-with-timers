@@ -87,7 +87,11 @@
 				<?php
 					echo "<h2>Recipes</h2>";
 					foreach ($exampleParent as $parent) {
-						echo "<h3>{$parent['name']} (Recipe ID: {$parent['idrecipe']})</h3>";
+						echo "<h3>{$parent['name']} (Recipe ID: {$parent['idrecipe']})</h3>
+							<input type=\"text\" placeholder=\"Enter new recipe name\">
+							<button> Save </button>
+						";
+
 						echo "<details open>
 							<summary> Timers </summary>";
 
@@ -100,7 +104,15 @@
 									// echo " duration: {$child['duration']} ";
 									// echo "<script>startCountdown('timer" . $child['idTimer'] . "', " . $child['duration'] . ");</script>";
 									echo "  duration: " . displayFinishingTime($child['duration']); 
-								echo "</li>"; 
+									echo "</li>";
+									echo 
+									'<ul>
+										<input type="text" placeholder="Enter new timer name">
+										<input class="timerDuration" type="number" placeholder="hours">
+										<input class="timerDuration" type="number" placeholder="minutes">
+										<input class="timerDuration" type="number" placeholder="seconds">
+										<button> Save </button>
+									</ul>';
 							}
 						}
 						echo "</details>";

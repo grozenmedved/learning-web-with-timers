@@ -92,7 +92,6 @@
 						echo "<h3>{$parent['name']} (Recipe ID: {$parent['idrecipe']})</h3>";
 						echo "<details open>
 							<summary> Timers </summary>";
-
 						foreach ($exampleChild as $child) {
 							if ($child["idrecipe"] === $parent["idrecipe"]) {
 								echo "<li>"; 

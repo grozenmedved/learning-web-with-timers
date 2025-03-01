@@ -103,8 +103,23 @@
 								echo "</li>"; 
 							}
 						}
+						echo '
+						<li>
+							<input type="text" placeholder="Enter new timer name">
+							<input class="timerDuration" type="number" placeholder="hours">
+							<input class="timerDuration" type="number" placeholder="minutes">
+							<input class="timerDuration" type="number" placeholder="seconds">
+							<button> Save </button>
+						</li>
+						';
 						echo "</details>";
 					}
+					echo '
+						<input type="text" placeholder="Enter new recipe name">
+						<button> Save </button>
+
+					';
+					
 				?>
 		</main>
 	</body>

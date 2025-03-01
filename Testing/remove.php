@@ -88,6 +88,10 @@
 					echo "<h2>Recipes</h2>";
 					foreach ($exampleParent as $parent) {
 						echo "<h3>{$parent['name']} (Recipe ID: {$parent['idrecipe']})</h3>";
+						echo '
+							<button> Remove </button>
+						';
+
 						echo "<details open>
 							<summary> Timers </summary>";
 
@@ -100,7 +104,11 @@
 									// echo " duration: {$child['duration']} ";
 									// echo "<script>startCountdown('timer" . $child['idTimer'] . "', " . $child['duration'] . ");</script>";
 									echo "  duration: " . displayFinishingTime($child['duration']); 
+									echo '
+										<button> Remove </button>
+									';	
 								echo "</li>"; 
+	
 							}
 						}
 						echo "</details>";

@@ -70,6 +70,10 @@
 		// 
 
 	}
+	function toggleForm(id){
+		let form = document.getElementById(id);
+		form.style.display = form.style.display === "none" || form.style.display === "" ? "block" : "none";
+	}
 	</script>
 
 <!DOCTYPE html>
@@ -115,10 +119,14 @@
 							";
 						echo "</li>"; 
 						echo "</details>";
-						echo "<button>Add recipe</button>
-						";
+						echo '<button onclick=\"toggleForm(\'showRecipeNewFields\')\">Add recipe</button>';
+						echo '<div id="showRecipeNewFields" class="hidden">
+							<input type="text" placeholder="Enter name">
+							<input type="number" placeholder="Enter number">
+							<button>Submit</button>
+						</div>
+						';
 					}
-
 				?>
 		</main>
 	</body>

@@ -1,14 +1,14 @@
 <?php
 		// Define parent array
-	$testArrayOfRecipies = [
+	$testArrayOfRecipes = [
 		[
-			"idrecipe" => 1,
+			"idRecipe" => 1,
 			"name" => "Beli kruh",
 		],[
-			"idrecipe" => 2,
+			"idRecipe" => 2,
 			"name" => "Štruca",
 		],[
-			"idrecipe" => 3,
+			"idRecipe" => 3,
 			"name" => "Žemlja",
 		],
 	];
@@ -16,23 +16,23 @@
 	$testArrayOfTimers = [
 		[
 			"idTimer" => 1,
-			"idrecipe" => 1, // Links to the parent
+			"idRecipe" => 1, // Links to the parent
 			"name" => "Cold fermentation",
 			"duration" => 30,
 		],[
 			"idTimer" => 2,
-			"idrecipe" => 1, // Links to the parent
+			"idRecipe" => 1, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 7200,
 		],[
 			"idTimer" => 3,
-			"idrecipe" => 3, // Links to the parent
+			"idRecipe" => 3, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 126400,
 		],
 		[
 			"idTimer" => 4,
-			"idrecipe" => 3, // Links to the parent
+			"idRecipe" => 3, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 226400,
 		],
@@ -47,9 +47,28 @@
 		} else {
 			return "Ready in " . $days .  " days at " .  gmdate("H:i:s" , $currentTime + $duration);
 		}
+	};
+	function addNewTimer($testArrayOfTimers, $data){
+		$newTimer = [
+			"idTimer" => count($testArrayOfTimers) + 1, // this should be handled by database
+			"idRecipe" => $data["idRecipe"], // Links to the parent
+			"name" => $data["newTimerName"],
+			"duration" => 
+				((int) ($data["hours"] ?? 0) * 3600) +
+				((int) ($data["minutes"] ?? 0) * 60) +
+				((int) ($data["seconds"] ?? 0)),
+		];
+		$testArrayOfTimers[] = $newTimer;
+		return $testArrayOfTimers;
 	}
 
-
+	if ($_SERVER["REQUEST_METHOD"] === "POST") {
+		$testArrayOfTimers = addNewTimer($testArrayOfTimers, $_POST);
+	};
+	
+	echo "<pre>";
+	print_r($testArrayOfTimers);
+	echo "</pre>";
 
 
 
@@ -70,13 +89,13 @@
 		<main>
 				<?php
 					echo "<h2>Recipes</h2>";
-					foreach ($testArrayOfRecipies as $childRecipie) {
-						echo "<h3>{$childRecipie['name']} (Recipe ID: {$childRecipie['idrecipe']})</h3>";
+					foreach ($testArrayOfRecipes as $childRecipe) {
+						echo "<h3>{$childRecipe['name']} (Recipe ID: {$childRecipe['idRecipe']})</h3>";
 						echo "<details open>
 							<summary> Timers </summary>";
 
 						foreach ($testArrayOfTimers as $childTimer) {
-							if ($childTimer["idrecipe"] === $childRecipie["idrecipe"]) {
+							if ($childTimer["idRecipe"] === $childRecipe["idRecipe"]) {
 								echo "<li>"; 
 									echo "<strong>" . $childTimer['name'] . "</strong>"; 
 									echo " <button class='button'>Start</button>";
@@ -87,17 +106,18 @@
 								echo "</li>"; 
 							}
 						}
-						echo '
-						<form method="POST">
+						echo "
+						<form method='POST'>
+							<input type='hidden' name='idRecipe' value='{$childRecipe['idRecipe']}'>
 							<li>
-								<input type="text" name="newTimerName" placeholder="Enter new timer name">
-								<input type="number" name="hours"  placeholder="hours">
-								<input type="number" name="minutes"  placeholder="minutes">
-								<input type="number" name="seconds"   placeholder="seconds">
-								<button> Save </button>
+								<input type='text' name='newTimerName' placeholder='Enter new timer name'>
+								<input type='number' name='hours' placeholder='hours'>
+								<input type='number' name='minutes' placeholder='minutes'>
+								<input type='number' name='seconds' placeholder='seconds'>
+								<button type='submit'> Save </button>
 							</li>
 						</form>
-						';
+						";						
 						echo "</details>";
 					}
 					echo '

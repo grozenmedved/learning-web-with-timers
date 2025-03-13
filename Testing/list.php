@@ -1,14 +1,14 @@
 <?php
 		// Define parent array
-	$testArrayOfRecipies = [
+	$testArrayOfRecipes = [
 		[
-			"idrecipe" => 1,
+			"idRecipe" => 1,
 			"name" => "Beli kruh",
 		],[
-			"idrecipe" => 2,
+			"idRecipe" => 2,
 			"name" => "Štruca",
 		],[
-			"idrecipe" => 3,
+			"idRecipe" => 3,
 			"name" => "Žemlja",
 		],
 	];
@@ -16,23 +16,23 @@
 	$testArrayOfTimers = [
 		[
 			"idTimer" => 1,
-			"idrecipe" => 1, // Links to the parent
+			"idRecipe" => 1, // Links to the parent
 			"name" => "Cold fermentation",
 			"duration" => 30,
 		],[
 			"idTimer" => 2,
-			"idrecipe" => 1, // Links to the parent
+			"idRecipe" => 1, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 7200,
 		],[
 			"idTimer" => 3,
-			"idrecipe" => 3, // Links to the parent
+			"idRecipe" => 3, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 126400,
 		],
 		[
 			"idTimer" => 4,
-			"idrecipe" => 3, // Links to the parent
+			"idRecipe" => 3, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 226400,
 		],
@@ -70,13 +70,13 @@
   <body>
   <main>
     <h2>Recipes</h2>
-    <?php foreach ($testArrayOfRecipies as $childRecipie): ?>
+    <?php foreach ($testArrayOfRecipes as $childRecipe): ?>
         <li>
-        <h3><?= htmlspecialchars($childRecipie['name']) ?> (Recipe ID: <?= $childRecipie['idrecipe'] ?>)</h3>
-        <button onclick="toggleForm('addTimerForm<?= $childRecipie['idrecipe'] ?>')">Add Timer</button>
-        <div id="addTimerForm<?= $childRecipie['idrecipe'] ?>" style="display:none;">
+        <h3><?= htmlspecialchars($childRecipe['name']) ?> (Recipe ID: <?= $childRecipe['idRecipe'] ?>)</h3>
+        <button onclick="toggleForm('addTimerForm<?= $childRecipe['idRecipe'] ?>')">Add Timer</button>
+        <div id="addTimerForm<?= $childRecipe['idRecipe'] ?>" style="display:none;">
             <form method="POST">
-                <input type="hidden" name="idrecipe" value="<?= $childRecipie['idrecipe'] ?>">
+                <input type="hidden" name="idRecipe" value="<?= $childRecipe['idRecipe'] ?>">
                 <input type="text" name="new_timer_name" placeholder="Timer name">
                 <input type="number" name="duration" placeholder="Duration (sec)">
                 <button type="submit">Save</button>
@@ -85,7 +85,7 @@
         <details open>
             <summary>Timers</summary>
             <?php foreach ($testArrayOfTimers as $childTimer): ?>
-                <?php if ($childTimer['idrecipe'] === $childRecipie['idrecipe']): ?>
+                <?php if ($childTimer['idRecipe'] === $childRecipe['idRecipe']): ?>
                     <li>
                         <strong><?= htmlspecialchars($childTimer['name']) ?></strong> 
                         <button>Start</button>

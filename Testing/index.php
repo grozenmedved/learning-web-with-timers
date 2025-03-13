@@ -1,14 +1,14 @@
 <?php
 		// Define parent array
-	$testArrayOfRecipies = [
+	$testArrayOfRecipes = [
 		[
-			"idrecipe" => 1,
+			"idRecipe" => 1,
 			"name" => "Beli kruh",
 		],[
-			"idrecipe" => 2,
+			"idRecipe" => 2,
 			"name" => "Štruca",
 		],[
-			"idrecipe" => 3,
+			"idRecipe" => 3,
 			"name" => "Žemlja",
 		],
 	];
@@ -16,23 +16,23 @@
 	$testArrayOfTimers = [
 		[
 			"idTimer" => 1,
-			"idrecipe" => 1, // Links to the parent
+			"idRecipe" => 1, // Links to the parent
 			"name" => "Cold fermentation",
 			"duration" => 30,
 		],[
 			"idTimer" => 2,
-			"idrecipe" => 1, // Links to the parent
+			"idRecipe" => 1, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 7200,
 		],[
 			"idTimer" => 3,
-			"idrecipe" => 3, // Links to the parent
+			"idRecipe" => 3, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 126400,
 		],
 		[
 			"idTimer" => 4,
-			"idrecipe" => 3, // Links to the parent
+			"idRecipe" => 3, // Links to the parent
 			"name" => "Final proof",
 			"duration" => 226400,
 		],
@@ -71,12 +71,12 @@
 		<main>
 				<?php
 					echo "<h2>Recipes</h2>";
-					foreach ($testArrayOfRecipies as $childRecipie) {
-						echo "<h3>{$childRecipie['name']} (Recipe ID: {$childRecipie['idrecipe']})</h3>";
+					foreach ($testArrayOfRecipes as $childRecipe) {
+						echo "<h3>{$childRecipe['name']} (Recipe ID: {$childRecipe['idRecipe']})</h3>";
 						echo "<details open>
 							<summary> Timers </summary>";
 						foreach ($testArrayOfTimers as $childTimer) {
-							if ($childTimer["idrecipe"] === $childRecipie["idrecipe"]) {
+							if ($childTimer["idRecipe"] === $childRecipe["idRecipe"]) {
 								echo "<li>"; 
 									echo "<strong>" . $childTimer['name'] . "</strong>"; 
 									echo " <button class='button'>Start</button>";

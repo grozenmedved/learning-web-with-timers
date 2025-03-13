@@ -5,25 +5,25 @@ function getVar($var) {
     $envFilePath = $parentDir . '/.env';  // Path to the .env file
 
     if (file_exists($envFilePath)) {
-        $fileContents = file_get_contents($envFilePath);  // Read the file contents
-        echo nl2br($fileContents);  // Output the file contents, converting newlines to <br> for proper display in the browser
-    } else {
-        echo ".env file not found!";
-    }
-    if (file_exists($envFilePath)) {
-        $file = file_get_contents($envFilePath);  // Read the contents
+        $file = file_get_contents($envFilePath);  // Read the file contents
         $env = explode("\n", $file);  // Split into lines
 
+        // Print out the value of $var for debugging
+        echo "Looking for: " . $var . "<br>";
+
+        // Loop through each line and print the content of $vars for debugging
         foreach ($env as $vars) {
-            if (preg_match('/^' . $var . '=', $vars)) {  // Match the variable name
-                $value = preg_replace('/^' . $var . '=', '', $vars);  // Get the value
-                $clean = preg_replace('/["|\'|`]/', '', $value);  // Clean up any quotes
+            echo "Checking: " . $vars . "<br>";  // Debugging each line in the file
+
+            // Check if $var matches the beginning of the line
+            if (preg_match('/^' . preg_quote($var, '/') . '=/',$vars)) {  
+                echo "Match found: " . $vars . "<br>";  // Debug if a match is found
+                $value = preg_replace('/^' . preg_quote($var, '/') . '=/', '', $vars);  // Get the value
+                $clean = preg_replace('/["|\'|`]/', '', $value);  // Clean the value
                 return trim($clean);  // Return the value
             }
         }
     }
     return null;  // Return null if the variable is not found
-    
 }
-
 ?>

@@ -1,6 +1,6 @@
 <?php
 		// Define parent array
-	$exampleParent = [
+	$testArrayOfRecipies = [
 		[
 			"idrecipe" => 1,
 			"name" => "Beli kruh",
@@ -13,7 +13,7 @@
 		],
 	];
 	// Define child array, referencing the parent
-	$exampleChild = [
+	$testArrayOfTimers = [
 		[
 			"idTimer" => 1,
 			"idrecipe" => 1, // Links to the parent
@@ -54,24 +54,7 @@
 
 
 ?>
-<script>
-	function addTimer(timerStorage){
-		// function that creates input fields below and then pushes the values into the appropriate array
-	}
-	function removeTimer(timerStorage, timerID){
-		// function removes the timer 
-		// what does it need
-			// needs the main array that stores everything
-			// then it needs the id, to remove
-			// finally, it removes the edit array	
-		return timerStorage.splice(timerStorage.findIndex((timerData)=> timerData.id == timerID), 1)
-	}
-	function editTimer(timerStorage, timerChanges){
-		// 
-
-	}
-	</script>
-
+ 
 <!DOCTYPE html>
 <html>
 	<head>
@@ -86,8 +69,8 @@
 		<main>
 				<?php
 					echo "<h2>Recipes</h2>";
-					foreach ($exampleParent as $parent) {
-						echo "<h3>{$parent['name']} (Recipe ID: {$parent['idrecipe']})</h3>";
+					foreach ($testArrayOfRecipies as $childRecipie) {
+						echo "<h3>{$childRecipie['name']} (Recipe ID: {$childRecipie['idrecipe']})</h3>";
 						echo '
 							<button> Remove </button>
 						';
@@ -95,15 +78,15 @@
 						echo "<details open>
 							<summary> Timers </summary>";
 
-						foreach ($exampleChild as $child) {
-							if ($child["idrecipe"] === $parent["idrecipe"]) {
+						foreach ($testArrayOfTimers as $childTimer) {
+							if ($childTimer["idrecipe"] === $childRecipie["idrecipe"]) {
 								echo "<li>"; 
-									echo "<strong>" . $child['name'] . "</strong>"; 
+									echo "<strong>" . $childTimer['name'] . "</strong>"; 
 									echo " <button class='button'>Start</button>";
 									echo " <button class='button'>Stop</button>  ";    
-									// echo " duration: {$child['duration']} ";
-									// echo "<script>startCountdown('timer" . $child['idTimer'] . "', " . $child['duration'] . ");</script>";
-									echo "  duration: " . displayFinishingTime($child['duration']); 
+									// echo " duration: {$childTimer['duration']} ";
+									// echo "<script>startCountdown('timer" . $childTimer['idTimer'] . "', " . $childTimer['duration'] . ");</script>";
+									echo "  duration: " . displayFinishingTime($childTimer['duration']); 
 									echo '
 										<button> Remove </button>
 									';	

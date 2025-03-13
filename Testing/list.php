@@ -1,6 +1,6 @@
 <?php
 		// Define parent array
-	$exampleParent = [
+	$testArrayOfRecipies = [
 		[
 			"idrecipe" => 1,
 			"name" => "Beli kruh",
@@ -13,7 +13,7 @@
 		],
 	];
 	// Define child array, referencing the parent
-	$exampleChild = [
+	$testArrayOfTimers = [
 		[
 			"idTimer" => 1,
 			"idrecipe" => 1, // Links to the parent
@@ -70,13 +70,13 @@
   <body>
   <main>
     <h2>Recipes</h2>
-    <?php foreach ($exampleParent as $parent): ?>
+    <?php foreach ($testArrayOfRecipies as $childRecipie): ?>
         <li>
-        <h3><?= htmlspecialchars($parent['name']) ?> (Recipe ID: <?= $parent['idrecipe'] ?>)</h3>
-        <button onclick="toggleForm('addTimerForm<?= $parent['idrecipe'] ?>')">Add Timer</button>
-        <div id="addTimerForm<?= $parent['idrecipe'] ?>" style="display:none;">
+        <h3><?= htmlspecialchars($childRecipie['name']) ?> (Recipe ID: <?= $childRecipie['idrecipe'] ?>)</h3>
+        <button onclick="toggleForm('addTimerForm<?= $childRecipie['idrecipe'] ?>')">Add Timer</button>
+        <div id="addTimerForm<?= $childRecipie['idrecipe'] ?>" style="display:none;">
             <form method="POST">
-                <input type="hidden" name="idrecipe" value="<?= $parent['idrecipe'] ?>">
+                <input type="hidden" name="idrecipe" value="<?= $childRecipie['idrecipe'] ?>">
                 <input type="text" name="new_timer_name" placeholder="Timer name">
                 <input type="number" name="duration" placeholder="Duration (sec)">
                 <button type="submit">Save</button>
@@ -84,13 +84,13 @@
         </div>
         <details open>
             <summary>Timers</summary>
-            <?php foreach ($exampleChild as $child): ?>
-                <?php if ($child['idrecipe'] === $parent['idrecipe']): ?>
+            <?php foreach ($testArrayOfTimers as $childTimer): ?>
+                <?php if ($childTimer['idrecipe'] === $childRecipie['idrecipe']): ?>
                     <li>
-                        <strong><?= htmlspecialchars($child['name']) ?></strong> 
+                        <strong><?= htmlspecialchars($childTimer['name']) ?></strong> 
                         <button>Start</button>
                         <button>Stop</button>
-                        <span>Duration: <?= $child['duration'] ?> sec</span>
+                        <span>Duration: <?= $childTimer['duration'] ?> sec</span>
                         <button>Edit Timer</button>
                         <button>Remove Timer</button>
                     </li>

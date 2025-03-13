@@ -1,5 +1,8 @@
 <?php
-		// Define parent array
+	// Define parent array
+	include_once 'helper.php';
+	getDatabaseConnection();
+	
 	$testArrayOfRecipes = [
 		[
 			"idRecipe" => 1,

@@ -1,77 +1,74 @@
 <?php
-	// Define parent array
-	include_once 'helper.php';
-	getDatabaseConnection();
+	include 'helper.php';
 	
-	$testArrayOfRecipes = [
-		[
-			"idRecipe" => 1,
-			"name" => "Beli kruh",
-		],[
-			"idRecipe" => 2,
-			"name" => "Štruca",
-		],[
-			"idRecipe" => 3,
-			"name" => "Žemlja",
-		],
-	];
-	// Define child array, referencing the parent
-	$testArrayOfTimers = [
-		[
-			"idTimer" => 1,
-			"idRecipe" => 1, // Links to the parent
-			"name" => "Cold fermentation",
-			"duration" => 30,
-		],[
-			"idTimer" => 2,
-			"idRecipe" => 1, // Links to the parent
-			"name" => "Final proof",
-			"duration" => 7200,
-		],[
-			"idTimer" => 3,
-			"idRecipe" => 3, // Links to the parent
-			"name" => "Final proof",
-			"duration" => 126400,
-		],
-		[
-			"idTimer" => 4,
-			"idRecipe" => 3, // Links to the parent
-			"name" => "Final proof",
-			"duration" => 226400,
-		],
-	];
-	function displayFinishingTime($duration) {
-		$currentTime = time();
-		$days = floor($duration / 86400);
-		if ($duration < 86400) {
-			return "Ready at " .  gmdate("H:i:s" , $currentTime + $duration);
-		} elseif ($duration >= 86400 && $duration <  86400*2){
-			return "Ready in " . $days .  " day at " .  gmdate("H:i:s" , $currentTime + $duration);
-		} else {
-			return "Ready in " . $days .  " days at " .  gmdate("H:i:s" , $currentTime + $duration);
+	$testArrayOfRecipes = getRecipes();
+	$testArrayOfTimers = getTimers();
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		var_dump($_POST);
+		$formId = $_POST['form_id'] ?? null;
+		var_dump($formId);
+		var_dump($_POST);
+		if ($formId === 'newTimer'){
+			    // Get form data
+					$idRecipe = $_POST['idRecipe'];
+					$newTimerName = $_POST['newTimerName'];
+					$hours = $_POST['hours'] > 0 ? $_POST['hours'] : 0;
+					$minutes = $_POST['minutes'] > 0 ? $_POST['minutes'] : 0;
+					$seconds = $_POST['seconds'] > 0 ? $_POST['seconds'] : 0;
+			
+					// Convert the time to seconds
+					$durationInSeconds = ($hours * 3600) + ($minutes * 60) + $seconds;
+			
+					// Insert the timer into the database
+					try {
+							// Get the database connection
+							$pdo = getDatabaseConnection();
+							// Prepare the SQL insert statement
+							$stmt = $pdo->prepare("INSERT INTO timers (idRecipe, name, duration) VALUES (:idRecipe, :name, :duration)");
+							// Bind parameters
+							$stmt->bindParam(':idRecipe', $idRecipe);
+							$stmt->bindParam(':name', $newTimerName);
+							$stmt->bindParam(':duration', $durationInSeconds);
+			
+							// Execute the statement
+							$stmt->execute();
+			
+							echo "Timer saved successfully!";
+							// Redirect to reload the page
+							header("Location: " . $_SERVER['PHP_SELF']);
+							exit(); // Ensure no further execution
+					} catch (PDOException $e) {
+							echo "Error saving timer: " . $e->getMessage();
+					}
+			
 		}
-	};
-	function addNewTimer($testArrayOfTimers, $data){
-		$newTimer = [
-			"idTimer" => count($testArrayOfTimers) + 1, // this should be handled by database
-			"idRecipe" => $data["idRecipe"], // Links to the parent
-			"name" => $data["newTimerName"],
-			"duration" => 
-				((int) ($data["hours"] ?? 0) * 3600) +
-				((int) ($data["minutes"] ?? 0) * 60) +
-				((int) ($data["seconds"] ?? 0)),
-		];
-		$testArrayOfTimers[] = $newTimer;
-		return $testArrayOfTimers;
-	}
+		if ($formId === 'newRecipe'){
+			$recipeName = trim($_POST['recipeName'] ?? '');
+			if (!empty($recipeName)) {
+				try {
+						// Get database connection
+						$pdo = getDatabaseConnection();
 
-	if ($_SERVER["REQUEST_METHOD"] === "POST") {
-		$testArrayOfTimers = addNewTimer($testArrayOfTimers, $_POST);
-	};
-	
-	echo "<pre>";
-	print_r($testArrayOfTimers);
-	echo "</pre>";
+						// Insert new recipe into the database
+						$stmt = $pdo->prepare("INSERT INTO recipes (name) VALUES (:recipeName)");
+						$stmt->bindParam(':recipeName', $recipeName);
+						$stmt->execute();
+
+						echo "Recipe saved successfully!";
+						// Redirect to reload the page
+						header("Location: " . $_SERVER['PHP_SELF']);
+						exit(); // Ensure no further execution
+						
+				} catch (PDOException $e) {
+						echo "Error saving recipe: " . $e->getMessage();
+				}
+		} else {
+				echo "Recipe name cannot be empty.";
+		}
+		}
+
+}
+
 
 
 
@@ -111,23 +108,26 @@
 						}
 						echo "
 						<form method='POST'>
+						  <input type='hidden' name='form_id' value='newTimer'>
 							<input type='hidden' name='idRecipe' value='{$childRecipe['idRecipe']}'>
-							<li>
+							<div>
 								<input type='text' name='newTimerName' placeholder='Enter new timer name'>
 								<input type='number' name='hours' placeholder='hours'>
 								<input type='number' name='minutes' placeholder='minutes'>
 								<input type='number' name='seconds' placeholder='seconds'>
 								<button type='submit'> Save </button>
-							</li>
+							</div>
 						</form>
 						";						
 						echo "</details>";
 					}
-					echo '
-						<input type="text" placeholder="Enter new recipe name">
-						<button> Save </button>
-
-					';
+					echo "
+					<form method='POST'>
+						<input type='hidden' name='form_id' value='newRecipe'>
+						<input type='text' name='recipeName' placeholder='Enter new recipe name'>
+						<button type='submit'> Save </button>
+					</form>
+				 ";
 					
 				?>
 		</main>

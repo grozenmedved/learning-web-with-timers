@@ -96,13 +96,21 @@
 
 						foreach ($testArrayOfTimers as $childTimer) {
 							if ($childTimer["idRecipe"] === $childRecipe["idRecipe"]) {
+								$duration = $childTimer['duration'];
+								$hours = floor($duration / 3600) . ' hours';
+								$minutes = floor(($duration % 3600) / 60) . ' minutes'; 
+								$seconds = $duration % 60 . ' seconds'; 
 								echo "<li>"; 
-									echo "<strong>" . $childTimer['name'] . "</strong>"; 
-									echo " <button class='button'>Start</button>";
-									echo " <button class='button'>Stop</button>  ";    
-									// echo " duration: {$childTimer['duration']} ";
-									// echo "<script>startCountdown('timer" . $childTimer['idTimer'] . "', " . $childTimer['duration'] . ");</script>";
-									echo "  duration: " . displayFinishingTime($childTimer['duration']); 
+									echo "<strong>" . $childTimer['name'] . "</strong> 
+											<input class='timerDuration' name='hours'   placeholder='hours' value='$hours' readonly>
+											<input class='timerDuration' name='minutes' placeholder='minutes' value='$minutes' readonly>
+											<input class='timerDuration' name='seconds' placeholder='seconds' value='$seconds' readonly>
+									";
+									// echo " <button class='button'>Start</button>";
+									// echo " <button class='button'>Stop</button>  ";    
+									// // echo " duration: {$childTimer['duration']} ";
+									// // echo "<script>startCountdown('timer" . $childTimer['idTimer'] . "', " . $childTimer['duration'] . ");</script>";
+									// echo "  duration: " . displayFinishingTime($childTimer['duration']); 
 								echo "</li>"; 
 							}
 						}

@@ -1,13 +1,7 @@
 <?php
 	include 'helper.php';
-	
 	$testArrayOfRecipes = getRecipes();
 	$testArrayOfTimers = getTimers();
-
-
-
-
-
 ?>
  
 <!DOCTYPE html>

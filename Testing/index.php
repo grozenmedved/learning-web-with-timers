@@ -1,53 +1,8 @@
 <?php
-		// Define parent array
-	$testArrayOfRecipes = [
-		[
-			"idRecipe" => 1,
-			"name" => "Beli kruh",
-		],[
-			"idRecipe" => 2,
-			"name" => "Štruca",
-		],[
-			"idRecipe" => 3,
-			"name" => "Žemlja",
-		],
-	];
-	// Define child array, referencing the parent
-	$testArrayOfTimers = [
-		[
-			"idTimer" => 1,
-			"idRecipe" => 1, // Links to the parent
-			"name" => "Cold fermentation",
-			"duration" => 30,
-		],[
-			"idTimer" => 2,
-			"idRecipe" => 1, // Links to the parent
-			"name" => "Final proof",
-			"duration" => 7200,
-		],[
-			"idTimer" => 3,
-			"idRecipe" => 3, // Links to the parent
-			"name" => "Final proof",
-			"duration" => 126400,
-		],
-		[
-			"idTimer" => 4,
-			"idRecipe" => 3, // Links to the parent
-			"name" => "Final proof",
-			"duration" => 226400,
-		],
-	];
-	function displayFinishingTime($duration) {
-		$currentTime = time();
-		$days = floor($duration / 86400);
-		if ($duration < 86400) {
-			return "Ready at " .  gmdate("H:i:s" , $currentTime + $duration);
-		} elseif ($duration >= 86400 && $duration <  86400*2){
-			return "Ready in " . $days .  " day at " .  gmdate("H:i:s" , $currentTime + $duration);
-		} else {
-			return "Ready in " . $days .  " days at " .  gmdate("H:i:s" , $currentTime + $duration);
-		}
-	}
+	include 'helper.php';
+	
+	$testArrayOfRecipes = getRecipes();
+	$testArrayOfTimers = getTimers();
 
 
 

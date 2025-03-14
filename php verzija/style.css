@@ -1,0 +1,5 @@
+/* Hide inputs by default */
+/* .hidden { display: none; }   */
+.timerDuration {
+	width:80px;
+}

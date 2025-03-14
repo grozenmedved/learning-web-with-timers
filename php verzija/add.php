@@ -55,9 +55,9 @@
 						$stmt->execute();
 
 						echo "Recipe saved successfully!";
-							// Redirect to reload the page
-							header("Location: " . $_SERVER['PHP_SELF']);
-							exit(); // Ensure no further execution
+						// Redirect to reload the page
+						header("Location: " . $_SERVER['PHP_SELF']);
+						exit(); // Ensure no further execution
 						
 				} catch (PDOException $e) {
 						echo "Error saving recipe: " . $e->getMessage();

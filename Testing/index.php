@@ -335,6 +335,13 @@
 		}
 
 	}
+	function displayAsideMain(){
+		echo "
+		<a href='index.php?action=add'><button type='button'>Add</button></a>
+		<a href='index.php?action=edit'><button type='button'>Edit</button></a>
+		<a href='index.php?action=remove'><button type='button'>Remove</button></a>
+		";
+	}
 
 
 
@@ -349,14 +356,40 @@
 		<meta charset="utf-8">
 	</head>
 	<aside>
-		<a href="add.php"><button type="button">Add</button></a>
-		<a href="edit.php"><button type="button">Edit</button></a>
-		<a href="remove.php"><button type="button">Remove</button></a>
+		<?php
+			$action = $_GET['action'] ?? 'default'; // Default action if none is provided
+			if ($action === 'default') {
+				displayAsideMain();
+			}
+			else {
+				echo '<a href="index.php"><button type="button">Back</button></a>';
+			}
+
+		?>
+		<!-- <a href="index.php?action=add"><button type="button">Add</button></a>
+		<a href="index.php?action=edit"><button type="button">Edit</button></a>
+		<a href="index.php?action=remove"><button type="button">Remove</button></a> -->
 	</aside>
 	<body>
 		<main>
 				<?php
-					displayBaseSite($testArrayOfRecipes, $testArrayOfTimers)
+					$action = $_GET['action'] ?? 'default'; // Default action if none is provided
+					if ($action === 'add') {
+						displayAddVersion($testArrayOfRecipes, $testArrayOfTimers);
+						// echo "<h2>Add a New Item</h2>";
+						// Display your add form here
+				} elseif ($action === 'edit') {
+					displayEditVersion($testArrayOfRecipes, $testArrayOfTimers);
+						// echo "<h2>Edit an Item</h2>";
+						// Display your edit form here
+				} elseif ($action === 'remove') {
+					displayRemoveVersion($testArrayOfRecipes, $testArrayOfTimers);
+						// echo "<h2>Remove an Item</h2>";
+						// Display your remove form here
+				} else {
+					displayBaseSite($testArrayOfRecipes, $testArrayOfTimers);
+						// Default content
+				}
 				?>
 		</main>
 	</body>

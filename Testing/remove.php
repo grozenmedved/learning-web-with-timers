@@ -4,9 +4,6 @@
 	$testArrayOfTimers = getTimers();
 
 
-
-
-
 ?>
  
 <!DOCTYPE html>
@@ -25,26 +22,28 @@
 					echo "<h2>Recipes</h2>";
 					foreach ($testArrayOfRecipes as $childRecipe) {
 						echo "<h3>{$childRecipe['name']} (Recipe ID: {$childRecipe['idRecipe']})</h3>";
-						echo '
-							<button> Remove </button>
-						';
+						echo "
+						<form method='POST'>
+							<input type='hidden' name='form_id' value='removeRecipe'>
+							<input type='hidden' name='idRecipe' value='{$childRecipe['idRecipe']}'>
+							<button type='submit'> Remove </button>
+						</form>
+						";
 
 						echo "<details open>
 							<summary> Timers </summary>";
 
 						foreach ($testArrayOfTimers as $childTimer) {
 							if ($childTimer["idRecipe"] === $childRecipe["idRecipe"]) {
-								echo "<li>"; 
-									echo "<strong>" . $childTimer['name'] . "</strong>"; 
-									echo " <button class='button'>Start</button>";
-									echo " <button class='button'>Stop</button>  ";    
-									// echo " duration: {$childTimer['duration']} ";
-									// echo "<script>startCountdown('timer" . $childTimer['idTimer'] . "', " . $childTimer['duration'] . ");</script>";
-									echo "  duration: " . displayFinishingTime($childTimer['duration']); 
-									echo '
-										<button> Remove </button>
-									';	
-								echo "</li>"; 
+								echo "<div>"; 
+								echo "<strong>" . $childTimer['name'] . "</strong>"; 
+								echo "
+								<form method='POST'>
+										<input type='hidden' name='form_id' value='removeTimer'>
+										<input type='hidden' name='idTimer' value='{$childTimer['idTimer']}'>
+									<button type='submit'> Remove </button>
+								</form>
+							</div>"; 
 	
 							}
 						}
